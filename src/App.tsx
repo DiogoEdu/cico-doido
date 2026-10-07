@@ -7,7 +7,7 @@ type Prefs={voice:string,rate:number,pitch:number,personality:Personality};
 const defaults:Prefs={voice:'',rate:1.1,pitch:1,personality:'brincalhao'};
 function isMaleVoice(v:SpeechSynthesisVoice){
 // The browser API has no gender field; only explicitly recognized male voices are offered.
-return /^pt(?:[-_]|$)/i.test(v.lang)&&(/(?:^|[\s(_-])(?:Felipe|Joaquim)(?:[\s)_-]|$)/i.test(v.name)||/microsoft/i.test(v.name)&&/(?:^|[\s,(_-])(?:Antonio|Duarte|Caio|Pedro|Rafael|Rui)(?:Neural|:|[\s,)_-]|$)/i.test(v.name));
+return /^pt(?:[-_]|$)/i.test(v.lang)&&(/(?:^|[\s(_-])(?:Daniel|Felipe|Joaquim)(?:[\s)_-]|$)/i.test(v.name)||/microsoft/i.test(v.name)&&/(?:^|[\s,(_-])(?:Antonio|Duarte|Caio|Pedro|Rafael|Rui)(?:Neural|:|[\s,)_-]|$)/i.test(v.name));
 }
 function preferredVoice(available:SpeechSynthesisVoice[],selected:string){
 const male=available.filter(isMaleVoice);const chosen=male.find(v=>v.voiceURI===selected);if(chosen)return chosen;
