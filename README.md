@@ -75,3 +75,10 @@ Os alertas ficam salvos até serem dispensados, concluídos ou adiados cinco min
 Também é possível digitar `me lembre de estudar em 10 minutos`, `me lembre de estudar amanhã às 14:30` ou `alarme para estudar às 18:00`. Se o pedido não tiver um horário reconhecido, o app pede um horário em vez de prometer um aviso.
 
 Use **Exportar para agenda** para baixar um arquivo `.ics`, importá-lo no calendário e configurar notificações no aplicativo de agenda. O Ciço não controla o disparo feito pelo calendário e alguns aplicativos podem ignorar o alarme importado.
+
+
+## Editor de arte gratuito
+
+O botão **criar tela da imagem** abre um editor local: envio de PNG/JPG/WebP (até 10 MB), remoção de fundo claro por luminosidade, traços pretos, ajuste manual de rotação, recorte e centralização com margem transparente. O PNG pode ser exportado com lado maior de 1600, 2400 ou 3600 pixels. As imagens não saem do aparelho; não usa API nem créditos. O comando `criar tela da imagem` no chat também abre a tela.
+
+Não é o gerador de imagens do ChatGPT: não redesenha letras, recupera detalhes perdidos, corrige perspectiva nem alinha elementos internos individualmente. Ampliar o PNG não cria detalhe novo. Prefira imagens nítidas com traços escuros e fundo claro, ajuste a intensidade e confira a prévia. A referência é reduzida a no máximo 3000 pixels no lado maior para limitar o processamento no navegador.
