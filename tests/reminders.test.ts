@@ -1,0 +1,12 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {readTasks,collectDue,parseReminder,calendarEvent,nextOccurrence} from '../src/reminders.ts';
+const now=new Date('2026-10-07T12:00:00-03:00').getTime();
+test('migra tarefas antigas e ignora armazenamento inválido',()=>{assert.deepEqual(readTasks('broken'),[]);assert.equal(readTasks('[{"id":1,"text":"Estudar","done":false}]')[0].repeat,'none');});
+test('dispara ao vencer e não repete após recarregar',()=>{const task={id:1,text:'Estudar',done:false,dueAt:now};assert.equal(collectDue([task],now-1).alerts.length,0);const first=collectDue([task],now);assert.equal(first.alerts.length,1);assert.equal(collectDue(readTasks(JSON.stringify(first.tasks)),now+1000).alerts.length,0);});
+test('ignora tarefas concluídas',()=>{assert.equal(collectDue([{id:1,text:'Estudar',done:true,dueAt:now}],now).alerts.length,0);});
+test('avisa lembrete atrasado ao retomar',()=>{assert.equal(collectDue([{id:1,text:'Estudar',done:false,dueAt:now-60000}],now).alerts.length,1);});
+test('adiamento dispara uma vez e mantém o lembrete já avisado',()=>{const task={id:1,text:'Estudar',done:false,dueAt:now,notifiedAt:now,snoozeUntil:now+300000};assert.equal(collectDue([task],now+299999).alerts.length,0);const due=collectDue([task],now+300000);assert.equal(due.alerts.length,1);assert.equal(collectDue(due.tasks,now+301000).alerts.length,0);});
+test('recorrência avança para horário futuro sem avalanche de atrasados',()=>{const due=collectDue([{id:1,text:'Estudar',done:false,dueAt:now-10*86400000,repeat:'daily'}],now);assert.equal(due.alerts.length,1);assert.ok(due.tasks[0].dueAt!>now);assert.equal(collectDue(due.tasks,now+1000).alerts.length,0);assert.equal(new Date(nextOccurrence(now,'weekly',now)).getDay(),new Date(now).getDay());});
+test('interpreta atrasos e recusa horário inválido',()=>{assert.equal(parseReminder('me lembre de estudar em 10 minutos',now)?.dueAt,now+600000);assert.equal(parseReminder('alarme para estudar às 25:00',now),null);assert.equal(parseReminder('me lembre de estudar em 0 minutos',now),null);assert.equal(parseReminder('me lembre de estudar',now),null);});
+test('exporta evento com recorrência e texto escapado',()=>{const ics=calendarEvent({id:1,text:'Estudar, Java; POO\nPraticar',done:false,dueAt:now,repeat:'weekly'});assert.match(ics,/RRULE:FREQ=WEEKLY/);assert.match(ics,/BEGIN:VALARM/);assert.match(ics,/Estudar\\, Java\\; POO\\nPraticar/);});
