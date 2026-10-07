@@ -51,3 +51,15 @@ A inteligência artificial ainda **não está conectada**. Perguntas livres rece
 Não coloque chaves, senhas ou dados de clientes no repositório. Arquivos `.env*` estão ignorados.
 
 Desenvolvido para Diogo Eduardo da Luz Ferreira — Luz Vante.
+
+## Conversa e histórico
+
+A conversa usa `/api/chat` com Workers AI, configurado pelo binding `AI` em `wrangler.jsonc`. O histórico das últimas 100 mensagens fica no navegador (localStorage), sem sincronização entre dispositivos. Os botões permitem pesquisar, apagar o histórico, ouvir novamente, pedir revisão da resposta escolhida e salvar a resposta como tarefa. A revisão envia o contexto até aquela resposta, sem usar mensagens posteriores. A IA pode fornecer uma nova resposta corrigida; não altera mensagens antigas nem o próprio código.
+
+## Voz natural masculina (opcional)
+
+O endpoint `/api/speech` gera MP3 em português com as opções Onyx e Echo. A voz é sintetizada por IA. Sem a credencial, essas opções ficam desativadas e o app continua oferecendo as vozes masculinas compatíveis do navegador.
+
+Para ativar, configure `OPENAI_API_KEY` como **segredo** do ambiente de produção no projeto Cloudflare Pages e faça uma nova implantação. Use uma chave da API OpenAI com créditos disponíveis. Não coloque a chave no GitHub, no código do frontend, nem em variável com prefixo `VITE_`. O uso de áudio é cobrado pela API e não está incluído no ChatGPT Plus. Defina limites de gasto na conta da API. A chave permanece no servidor.
+
+Teste em Configurações → Voz masculina → Onyx/Echo → Ouvir amostra. O navegador pode exigir um clique para liberar reprodução; nesse caso use Ouvir novamente. Velocidade funciona nos dois modos; o controle de tom funciona apenas na voz local. Parar áudio cancela reprodução e geração pendente.
