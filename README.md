@@ -63,3 +63,15 @@ O endpoint `/api/speech` gera MP3 em português com as opções Onyx e Echo. A v
 Para ativar, configure `OPENAI_API_KEY` como **segredo** do ambiente de produção no projeto Cloudflare Pages e faça uma nova implantação. Use uma chave da API OpenAI com créditos disponíveis. Não coloque a chave no GitHub, no código do frontend, nem em variável com prefixo `VITE_`. O uso de áudio é cobrado pela API e não está incluído no ChatGPT Plus. Defina limites de gasto na conta da API. A chave permanece no servidor.
 
 Teste em Configurações → Voz masculina → Onyx/Echo → Ouvir amostra. O navegador pode exigir um clique para liberar reprodução; nesse caso use Ouvir novamente. Velocidade funciona nos dois modos; o controle de tom funciona apenas na voz local. Parar áudio cancela reprodução e geração pendente.
+
+## Lembretes e alarmes
+
+Em Minhas tarefas, escolha data/hora e repetição (uma vez, diária ou semanal). Clique em **Ativar alertas e testar som**: a permissão de notificação é solicitada somente nesse clique e o sinal sonoro do alarme é liberado. A tela mostra avisos mesmo sem permissão. O som respeita o alto-falante do aplicativo; a fala depende de uma voz disponível.
+
+Com a página aberta e o aparelho acordado, o relógio verifica vencimentos a cada segundo. Ao voltar à página ou reabrir o site, verifica também lembretes vencidos que não foram avisados. O navegador pode atrasar verificações em abas inativas; não há garantia de precisão ao segundo. Sem a página aberta não existe disparo do Ciço: não foi configurado um serviço de push ou agendador remoto.
+
+Os alertas ficam salvos até serem dispensados, concluídos ou adiados cinco minutos. A recorrência mantém o horário local e salta ocorrências antigas para evitar uma sequência de alertas atrasados. Concluir um alerta recorrente mantém a próxima ocorrência; marcar a tarefa como concluída interrompe a série. Web Locks reduz duplicação do disparo entre abas compatíveis.
+
+Também é possível digitar `me lembre de estudar em 10 minutos`, `me lembre de estudar amanhã às 14:30` ou `alarme para estudar às 18:00`. Se o pedido não tiver um horário reconhecido, o app pede um horário em vez de prometer um aviso.
+
+Use **Exportar para agenda** para baixar um arquivo `.ics`, importá-lo no calendário e configurar notificações no aplicativo de agenda. O Ciço não controla o disparo feito pelo calendário e alguns aplicativos podem ignorar o alarme importado.
